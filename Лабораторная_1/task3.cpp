@@ -64,6 +64,47 @@ void printSafe(const SafeArray& arr)
     std::cout << std::endl;
 }
 
+/**
+ * @brief Изменяет размер безопасного массива.
+ *
+ * При уменьшении размера выводит элементы,
+ * которые будут удалены.
+ * При увеличении новые элементы получают значение 0.
+ *
+ * @param arr Безопасный массив.
+ * @param newSize Новый размер массива.
+ */
+void reSizeArray(SafeArray& arr, int newSize)
+{
+    int* newData = new int[newSize]{};
+
+    int copySize = arr.size;
+
+    if (newSize < copySize)
+    {
+        copySize = newSize;
+
+        std::cout << "Удаляемые элементы: ";
+
+        for (int i = newSize; i < arr.size; ++i)
+        {
+            std::cout << arr.data[i] << " ";
+        }
+
+        std::cout << std::endl;
+    }
+
+    for (int i = 0; i < copySize; ++i)
+    {
+        newData[i] = arr.data[i];
+    }
+
+    delete[] arr.data;
+
+    arr.data = newData;
+    arr.size = newSize;
+}
+
 int main()
 {
     int size;
