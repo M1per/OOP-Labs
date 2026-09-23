@@ -135,6 +135,11 @@ int main()
     std::cout << "После уменьшения: ";
     printSafe(myArr);
 
+    reSizeArray(myArr, 5); // Увеличиваем массив до 5 элементов
+
+    std::cout << "После увеличения: ";
+    printSafe(myArr);
+
     delete[] myArr.data;
     myArr.data = nullptr;
 
