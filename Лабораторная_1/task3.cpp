@@ -25,6 +25,28 @@ SafeArray createArray(int size)
     return arr; // Возвращаем структуру по значению
 }
 
+/**
+ * @brief Возвращает ссылку на элемент безопасного массива.
+ *
+ * @param arr Безопасный массив.
+ * @param index Индекс элемента.
+ * @return int& Ссылка на элемент массива или на переменную-заглушку.
+ */
+int& getElement(SafeArray& arr, int index)
+{
+    static int errorValue = 0; // Статическая переменная-заглушка
+
+    if (index < 0 || index >= arr.size)
+    {
+        std::cout << "Ошибка: индекс выходит за границы массива."
+                  << std::endl;
+
+        return errorValue;
+    }
+
+    return arr.data[index]; // Возвращаем ссылку на настоящий элемент
+}
+
 int main()
 {
     int size;
@@ -41,7 +63,18 @@ int main()
         std::cin >> myArr.data[i];
     }
 
-    std::cout << "Массив: ";
+    std::cout << "Исходный массив: ";
+
+    for (int i = 0; i < myArr.size; ++i)
+    {
+        std::cout << myArr.data[i] << " ";
+    }
+
+    std::cout << std::endl;
+
+    getElement(myArr, 2) = 999; // Изменяем третий элемент через ссылку
+
+    std::cout << "После изменения: ";
 
     for (int i = 0; i < myArr.size; ++i)
     {
