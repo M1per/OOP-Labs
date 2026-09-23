@@ -47,6 +47,23 @@ int& getElement(SafeArray& arr, int index)
     return arr.data[index]; // Возвращаем ссылку на настоящий элемент
 }
 
+/**
+ * @brief Выводит элементы безопасного массива.
+ *
+ * Функция не изменяет массив, поэтому используется const-ссылка.
+ *
+ * @param arr Безопасный массив для вывода.
+ */
+void printSafe(const SafeArray& arr)
+{
+    for (int i = 0; i < arr.size; ++i)
+    {
+        std::cout << arr.data[i] << " ";
+    }
+
+    std::cout << std::endl;
+}
+
 int main()
 {
     int size;
@@ -64,26 +81,16 @@ int main()
     }
 
     std::cout << "Исходный массив: ";
-
-    for (int i = 0; i < myArr.size; ++i)
-    {
-        std::cout << myArr.data[i] << " ";
-    }
-
-    std::cout << std::endl;
+    printSafe(myArr);
 
     getElement(myArr, 2) = 999; // Изменяем третий элемент через ссылку
+    getElement(myArr, 10) = 500; // Проверяем выход за границы
 
     std::cout << "После изменения: ";
-
-    for (int i = 0; i < myArr.size; ++i)
-    {
-        std::cout << myArr.data[i] << " ";
-    }
-
-    std::cout << std::endl;
+    printSafe(myArr);
 
     delete[] myArr.data;
+    myArr.data = nullptr;
 
     return 0;
 }
