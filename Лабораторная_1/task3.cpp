@@ -130,6 +130,11 @@ int main()
     std::cout << "После изменения: ";
     printSafe(myArr);
 
+    reSizeArray(myArr, 3); // Уменьшаем массив до 3 элементов
+
+    std::cout << "После уменьшения: ";
+    printSafe(myArr);
+
     delete[] myArr.data;
     myArr.data = nullptr;
 
