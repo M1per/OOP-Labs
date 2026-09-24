@@ -91,7 +91,14 @@ int main()
 
     fillMatrix(matrix, rows, cols);
 
+    std::cout << "\nПервый вызов:" << std::endl;
     printMatrix(matrix, rows, cols);
+
+    std::cout << "\nВторой вызов:" << std::endl;
+    printMatrix(matrix, rows, cols, true, "Оценки студентов");
+
+    std::cout << "\nТретий вызов:" << std::endl;
+    printMatrix(matrix, rows, cols, false, "Матрица без рамки");
 
     return 0;
 }
