@@ -56,27 +56,55 @@ void printMatrix(
     bool showBorders = true,
     std::string title = "Matrix")
 {
-    std::cout << title << std::endl;
-
     if (showBorders)
     {
-        std::cout << "--------------------" << std::endl;
+        std::cout << "| " << title << " |" << std::endl;
+    }
+    else
+    {
+        std::cout << title << std::endl << std::endl;
     }
 
     for (int i = 0; i < rows; ++i)
     {
+        if (showBorders)
+        {
+            std::cout << "|";
+        }
+
         for (int j = 0; j < cols; ++j)
         {
-            std::cout << matrix[i][j] << " ";
+            std::cout << " " << matrix[i][j] << " ";
+
+            if (showBorders)
+            {
+                std::cout << "|";
+            }
         }
 
         std::cout << std::endl;
     }
 
-    if (showBorders)
+    std::cout << std::endl;
+}
+
+/**
+ * @brief Освобождает память двумерного динамического массива.
+ *
+ * Сначала освобождается память каждой строки,
+ * затем освобождается массив указателей.
+ *
+ * @param matrix Двумерный динамический массив.
+ * @param rows Количество строк.
+ */
+void freeMatrix(int** matrix, int rows)
+{
+    for (int i = 0; i < rows; ++i)
     {
-        std::cout << "--------------------" << std::endl;
+        delete[] matrix[i];
     }
+
+    delete[] matrix;
 }
 
 int main()
@@ -91,14 +119,13 @@ int main()
 
     fillMatrix(matrix, rows, cols);
 
-    std::cout << "\nПервый вызов:" << std::endl;
     printMatrix(matrix, rows, cols);
 
-    std::cout << "\nВторой вызов:" << std::endl;
     printMatrix(matrix, rows, cols, true, "Оценки студентов");
 
-    std::cout << "\nТретий вызов:" << std::endl;
     printMatrix(matrix, rows, cols, false, "Матрица без рамки");
+
+    freeMatrix(matrix, rows);
 
     return 0;
 }
