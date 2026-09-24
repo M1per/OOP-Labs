@@ -125,7 +125,6 @@ int main()
     printSafe(myArr);
 
     getElement(myArr, 2) = 999; // Изменяем третий элемент через ссылку
-    getElement(myArr, 10) = 500; // Проверяем выход за границы
 
     std::cout << "После изменения: ";
     printSafe(myArr);
