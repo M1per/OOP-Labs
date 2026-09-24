@@ -40,6 +40,45 @@ void fillMatrix(int** matrix, int rows, int cols)
     }
 }
 
+/**
+ * @brief Красиво выводит двумерный массив.
+ *
+ * @param matrix Двумерный динамический массив.
+ * @param rows Количество строк.
+ * @param cols Количество столбцов.
+ * @param showBorders Показывать ли рамку.
+ * @param title Заголовок матрицы.
+ */
+void printMatrix(
+    int** matrix,
+    int rows,
+    int cols,
+    bool showBorders = true,
+    std::string title = "Matrix")
+{
+    std::cout << title << std::endl;
+
+    if (showBorders)
+    {
+        std::cout << "--------------------" << std::endl;
+    }
+
+    for (int i = 0; i < rows; ++i)
+    {
+        for (int j = 0; j < cols; ++j)
+        {
+            std::cout << matrix[i][j] << " ";
+        }
+
+        std::cout << std::endl;
+    }
+
+    if (showBorders)
+    {
+        std::cout << "--------------------" << std::endl;
+    }
+}
+
 int main()
 {
     int rows = 3;
@@ -51,6 +90,8 @@ int main()
               << rows << " x " << cols << std::endl;
 
     fillMatrix(matrix, rows, cols);
+
+    printMatrix(matrix, rows, cols);
 
     return 0;
 }
