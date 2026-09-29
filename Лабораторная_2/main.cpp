@@ -69,11 +69,16 @@ int main()
     std::cout << "\nСостояние тестового рейса:" << std::endl;
     testFlight.printInfo();
 
-    std::cout << "\nСостояние первого рейса после "
-                 "некорректной операции:"
+    std::cout << "\n=== Проверка корректности объекта ==="
               << std::endl;
 
-    flight1.printInfo();
+    Flight invalidFlight(-10, "", -50, 500,
+                         FlightStatus::Scheduled);
+
+    std::cout << "Попытка создать рейс с некорректными данными:"
+              << std::endl;
+
+    invalidFlight.printInfo();
 
     std::cout << "\n=== Проверка независимости объектов ==="
               << std::endl;
