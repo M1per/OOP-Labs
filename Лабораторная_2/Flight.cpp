@@ -14,9 +14,9 @@ Flight::Flight()
 }
 
 Flight::Flight(int number, const std::string& destination, int capacity)
-    : flightNumber(number),
-      destination(destination),
-      capacity(capacity),
+    : flightNumber(number > 0 ? number : 1),
+      destination(destination.empty() ? "Не указано" : destination),
+      capacity(capacity > 0 ? capacity : 100),
       passengerCount(0),
       status(FlightStatus::Scheduled)
 {
@@ -28,12 +28,21 @@ Flight::Flight(int number,
                int capacity,
                int passengers,
                FlightStatus status)
-    : flightNumber(number),
-      destination(destination),
-      capacity(capacity),
-      passengerCount(passengers),
+    : flightNumber(number > 0 ? number : 1),
+      destination(destination.empty() ? "Не указано" : destination),
+      capacity(capacity > 0 ? capacity : 100),
+      passengerCount(0),
       status(status)
 {
+    if (passengers >= 0 && passengers <= this->capacity)
+    {
+        passengerCount = passengers;
+    }
+    else
+    {
+        passengerCount = 0;
+    }
+
     objectCount++;
 }
 
