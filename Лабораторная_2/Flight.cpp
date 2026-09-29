@@ -12,3 +12,27 @@ Flight::Flight()
 {
     objectCount++;
 }
+
+Flight::Flight(int number, const std::string& destination, int capacity)
+    : flightNumber(number),
+      destination(destination),
+      capacity(capacity),
+      passengerCount(0),
+      status(FlightStatus::Scheduled)
+{
+    objectCount++;
+}
+
+Flight::Flight(int number,
+               const std::string& destination,
+               int capacity,
+               int passengers,
+               FlightStatus status)
+    : flightNumber(number),
+      destination(destination),
+      capacity(capacity),
+      passengerCount(passengers),
+      status(status)
+{
+    objectCount++;
+}
