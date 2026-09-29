@@ -4,3 +4,7 @@ task1
 task2
 task3
 *.o
+
+# Лабораторная 2
+flight
+docs/
