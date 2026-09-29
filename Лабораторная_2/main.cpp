@@ -1,0 +1,84 @@
+#include "Flight.h"
+#include <iostream>
+
+int main()
+{
+    std::cout << "=== Создание объектов ===" << std::endl;
+
+    Flight flight1;
+
+    Flight flight2(101, "Москва", 180);
+
+    Flight flight3(202, "Санкт-Петербург", 200, 50,
+                   FlightStatus::Registration);
+
+    std::cout << "Количество объектов: "
+              << Flight::getObjectCount() << std::endl;
+
+    std::cout << "\n=== Начальное состояние ===" << std::endl;
+
+    flight1.printInfo();
+    std::cout << std::endl;
+
+    flight2.printInfo();
+    std::cout << std::endl;
+
+    flight3.printInfo();
+
+    std::cout << "\n=== Корректные операции ===" << std::endl;
+
+    flight2.addPassenger();
+    flight2.addPassenger();
+    flight2.addPassenger();
+
+    flight3.changeStatus(FlightStatus::Departed);
+
+    std::cout << "\nРейс 101 после добавления пассажиров:"
+              << std::endl;
+    flight2.printInfo();
+
+    std::cout << "\nРейс 202 после изменения статуса:"
+              << std::endl;
+    flight3.printInfo();
+
+    std::cout << "\n=== Некорректные операции ===" << std::endl;
+
+    bool removed = flight1.removePassenger();
+
+    if (!removed)
+    {
+        std::cout << "Ошибка: невозможно удалить пассажира, "
+                     "так как пассажиров нет."
+                  << std::endl;
+    }
+
+    std::cout << "\nСостояние первого рейса после "
+                 "некорректной операции:"
+              << std::endl;
+
+    flight1.printInfo();
+
+    std::cout << "\n=== Проверка независимости объектов ==="
+              << std::endl;
+
+    std::cout << "Изменяем только второй рейс..." << std::endl;
+
+    flight2.addPassenger();
+
+    std::cout << "\nПервый рейс:" << std::endl;
+    flight1.printInfo();
+
+    std::cout << "\nВторой рейс:" << std::endl;
+    flight2.printInfo();
+
+    std::cout << "\nТретий рейс:" << std::endl;
+    flight3.printInfo();
+
+    std::cout << "\n=== Проверка количества объектов ==="
+              << std::endl;
+
+    std::cout << "Сейчас существует объектов Flight: "
+              << Flight::getObjectCount() << std::endl;
+
+    return 0;
+}
