@@ -52,6 +52,23 @@ int main()
                   << std::endl;
     }
 
+    Flight testFlight(303, "Уфа", 2);
+
+    testFlight.addPassenger();
+    testFlight.addPassenger();
+
+    bool added = testFlight.addPassenger();
+
+    if (!added)
+    {
+        std::cout << "Ошибка: невозможно добавить пассажира, "
+                     "так как самолёт заполнен."
+                  << std::endl;
+    }
+
+    std::cout << "\nСостояние тестового рейса:" << std::endl;
+    testFlight.printInfo();
+
     std::cout << "\nСостояние первого рейса после "
                  "некорректной операции:"
               << std::endl;
