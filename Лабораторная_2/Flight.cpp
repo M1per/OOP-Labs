@@ -61,3 +61,30 @@ FlightStatus Flight::getStatus() const
 {
     return status;
 }
+
+bool Flight::addPassenger()
+{
+    if (passengerCount >= capacity)
+    {
+        return false;
+    }
+
+    passengerCount++;
+    return true;
+}
+
+bool Flight::removePassenger()
+{
+    if (passengerCount <= 0)
+    {
+        return false;
+    }
+
+    passengerCount--;
+    return true;
+}
+
+void Flight::changeStatus(FlightStatus newStatus)
+{
+    status = newStatus;
+}
