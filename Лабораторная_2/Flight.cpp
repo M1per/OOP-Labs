@@ -36,3 +36,28 @@ Flight::Flight(int number,
 {
     objectCount++;
 }
+
+int Flight::getFlightNumber() const
+{
+    return flightNumber;
+}
+
+std::string Flight::getDestination() const
+{
+    return destination;
+}
+
+int Flight::getCapacity() const
+{
+    return capacity;
+}
+
+int Flight::getPassengerCount() const
+{
+    return passengerCount;
+}
+
+FlightStatus Flight::getStatus() const
+{
+    return status;
+}
