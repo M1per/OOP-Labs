@@ -37,6 +37,11 @@ Flight::Flight(int number,
     objectCount++;
 }
 
+Flight::~Flight()
+{
+    objectCount--;
+}
+
 int Flight::getFlightNumber() const
 {
     return flightNumber;
@@ -87,4 +92,44 @@ bool Flight::removePassenger()
 void Flight::changeStatus(FlightStatus newStatus)
 {
     status = newStatus;
+}
+
+void Flight::printInfo() const
+{
+    std::cout << "Рейс №" << flightNumber << std::endl;
+    std::cout << "Пункт назначения: " << destination << std::endl;
+    std::cout << "Вместимость: " << capacity << std::endl;
+    std::cout << "Пассажиров: " << passengerCount << std::endl;
+
+    std::cout << "Статус: ";
+
+    switch (status)
+    {
+        case FlightStatus::Scheduled:
+            std::cout << "Запланирован";
+            break;
+
+        case FlightStatus::Registration:
+            std::cout << "Регистрация";
+            break;
+
+        case FlightStatus::Departed:
+            std::cout << "Вылетел";
+            break;
+
+        case FlightStatus::Completed:
+            std::cout << "Завершён";
+            break;
+
+        case FlightStatus::Cancelled:
+            std::cout << "Отменён";
+            break;
+    }
+
+    std::cout << std::endl;
+}
+
+int Flight::getObjectCount()
+{
+    return objectCount;
 }
