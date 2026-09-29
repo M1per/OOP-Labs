@@ -2,15 +2,14 @@
 #include <iostream>
 
 /**
- * @brief Статический счётчик существующих объектов Flight.
+ * @brief Инициализация статического счётчика объектов.
  */
 int Flight::objectCount = 0;
 
 /**
- * @brief Создаёт рейс со значениями по умолчанию.
+ * @brief Конструктор без параметров.
  *
- * Создаётся рейс с номером 1, вместимостью 100 пассажиров
- * и статусом "Запланирован".
+ * Создаёт рейс со стандартными значениями.
  */
 Flight::Flight()
     : flightNumber(1),
@@ -23,16 +22,15 @@ Flight::Flight()
 }
 
 /**
- * @brief Создаёт рейс с основными параметрами.
+ * @brief Конструктор с основными параметрами.
  *
  * @param number Номер рейса.
  * @param destination Пункт назначения.
  * @param capacity Вместимость самолёта.
- *
- * Если номер или вместимость некорректны, используются
- * безопасные значения по умолчанию.
  */
-Flight::Flight(int number, const std::string& destination, int capacity)
+Flight::Flight(int number,
+               const std::string& destination,
+               int capacity)
     : flightNumber(number > 0 ? number : 1),
       destination(destination.empty() ? "Не указано" : destination),
       capacity(capacity > 0 ? capacity : 100),
@@ -43,16 +41,13 @@ Flight::Flight(int number, const std::string& destination, int capacity)
 }
 
 /**
- * @brief Создаёт рейс со всеми основными параметрами.
+ * @brief Конструктор со всеми параметрами.
  *
  * @param number Номер рейса.
  * @param destination Пункт назначения.
  * @param capacity Вместимость самолёта.
  * @param passengers Количество пассажиров.
- * @param status Начальный статус рейса.
- *
- * Если количество пассажиров некорректно или превышает
- * вместимость самолёта, устанавливается 0 пассажиров.
+ * @param status Статус рейса.
  */
 Flight::Flight(int number,
                const std::string& destination,
@@ -78,9 +73,7 @@ Flight::Flight(int number,
 }
 
 /**
- * @brief Уничтожает объект Flight.
- *
- * При уничтожении объекта уменьшается статический счётчик.
+ * @brief Деструктор объекта Flight.
  */
 Flight::~Flight()
 {
@@ -110,7 +103,7 @@ std::string Flight::getDestination() const
 /**
  * @brief Возвращает вместимость самолёта.
  *
- * @return Максимальное количество пассажиров.
+ * @return Вместимость самолёта.
  */
 int Flight::getCapacity() const
 {
@@ -120,7 +113,7 @@ int Flight::getCapacity() const
 /**
  * @brief Возвращает количество пассажиров.
  *
- * @return Текущее количество пассажиров.
+ * @return Количество пассажиров.
  */
 int Flight::getPassengerCount() const
 {
@@ -128,9 +121,9 @@ int Flight::getPassengerCount() const
 }
 
 /**
- * @brief Возвращает текущий статус рейса.
+ * @brief Возвращает статус рейса.
  *
- * @return Статус рейса.
+ * @return Текущий статус.
  */
 FlightStatus Flight::getStatus() const
 {
@@ -138,13 +131,10 @@ FlightStatus Flight::getStatus() const
 }
 
 /**
- * @brief Добавляет одного пассажира на рейс.
+ * @brief Добавляет одного пассажира.
  *
- * Пассажир добавляется только в том случае, если самолёт
- * ещё не заполнен.
- *
- * @return true, если пассажир успешно добавлен.
- * @return false, если достигнута максимальная вместимость.
+ * @return true, если пассажир добавлен;
+ * false, если самолёт заполнен.
  */
 bool Flight::addPassenger()
 {
@@ -158,10 +148,10 @@ bool Flight::addPassenger()
 }
 
 /**
- * @brief Удаляет одного пассажира с рейса.
+ * @brief Удаляет одного пассажира.
  *
- * @return true, если пассажир успешно удалён.
- * @return false, если пассажиров нет.
+ * @return true, если пассажир удалён;
+ * false, если пассажиров нет.
  */
 bool Flight::removePassenger()
 {
@@ -186,9 +176,6 @@ void Flight::changeStatus(FlightStatus newStatus)
 
 /**
  * @brief Выводит информацию о рейсе.
- *
- * На экран выводятся номер рейса, пункт назначения,
- * вместимость, количество пассажиров и текущий статус.
  */
 void Flight::printInfo() const
 {
@@ -226,7 +213,7 @@ void Flight::printInfo() const
 }
 
 /**
- * @brief Возвращает количество существующих объектов Flight.
+ * @brief Возвращает количество существующих объектов.
  *
  * @return Количество объектов Flight.
  */

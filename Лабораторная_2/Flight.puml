@@ -1,0 +1,41 @@
+@startuml
+
+title UML-диаграмма класса Flight
+
+class Flight {
+    - flightNumber : int
+    - destination : string
+    - capacity : int
+    - passengerCount : int
+    - status : FlightStatus
+    - objectCount : int {static}
+
+    + Flight()
+    + Flight(number : int, destination : string, capacity : int)
+    + Flight(number : int, destination : string, capacity : int, passengers : int, status : FlightStatus)
+    + ~Flight()
+
+    + getFlightNumber() : int
+    + getDestination() : string
+    + getCapacity() : int
+    + getPassengerCount() : int
+    + getStatus() : FlightStatus
+
+    + addPassenger() : bool
+    + removePassenger() : bool
+    + changeStatus(newStatus : FlightStatus) : void
+    + printInfo() : void
+    + getObjectCount() : int {static}
+}
+
+enum FlightStatus {
+    Scheduled
+    Registration
+    Departed
+    Completed
+    Cancelled
+}
+
+Flight --> FlightStatus
+
+@enduml
