@@ -6,18 +6,17 @@
  *
  * @section description Описание
  *
- * Лабораторная работа посвящена разработке класса Flight,
- * представляющего авиарейс.
+ * Лабораторная работа посвящена разработке классов
+ * Flight и Aircraft.
  *
- * Класс содержит информацию о номере рейса,
- * пункте назначения, вместимости самолёта,
- * количестве пассажиров и статусе рейса.
+ * Класс Flight представляет авиарейс и содержит объект
+ * пользовательского класса Aircraft, представляющий самолёт.
  *
  * @section tests Выполненные проверки
  *
  * В программе выполняются проверки:
  * - создания объектов;
- * - работы конструкторов;
+ * - работы различных конструкторов;
  * - добавления пассажиров;
  * - удаления пассажиров;
  * - изменения статуса рейса;
@@ -26,14 +25,14 @@
  * - независимости объектов;
  * - подсчёта количества существующих объектов.
  *
- * @image html Flight.png "UML-диаграмма класса Flight"
+ * @image html Flight.png "UML-диаграмма классов Flight и Aircraft"
  */
 
 /**
  * @brief Главная функция программы.
  *
- * Создаёт несколько объектов Flight и выполняет
- * проверку основных возможностей класса.
+ * Создаёт объекты Aircraft и Flight и выполняет
+ * проверку основных возможностей классов.
  *
  * @return 0 при успешном завершении программы.
  */
@@ -41,14 +40,21 @@ int main()
 {
     std::cout << "=== Создание объектов ===" << std::endl;
 
+    Aircraft aircraft1("Boeing 737", 100);
+    Aircraft aircraft2("Airbus A320", 180);
+    Aircraft aircraft3("Boeing 777", 200);
+
     Flight flight1;
 
-    Flight flight2(101, "Москва", 180);
+    Flight flight2(101, "Москва", aircraft2);
 
-    Flight flight3(202, "Санкт-Петербург", 200, 50,
+    Flight flight3(202,
+                   "Санкт-Петербург",
+                   aircraft3,
+                   50,
                    FlightStatus::Registration);
 
-    std::cout << "Количество объектов: "
+    std::cout << "Количество объектов Flight: "
               << Flight::getObjectCount() << std::endl;
 
     std::cout << "\n=== Начальное состояние ===" << std::endl;
@@ -90,7 +96,9 @@ int main()
                   << std::endl;
     }
 
-    Flight testFlight(303, "Уфа", 2);
+    Aircraft testAircraft("Embraer 190", 2);
+
+    Flight testFlight(303, "Уфа", testAircraft);
 
     testFlight.addPassenger();
     testFlight.addPassenger();
@@ -111,8 +119,13 @@ int main()
     std::cout << "\n=== Проверка корректности объекта ==="
               << std::endl;
 
-    Flight invalidFlight(-10, "", -50, 500,
-                         FlightStatus::Scheduled);
+    Aircraft invalidAircraft("", -50);
+
+    Flight invalidFlight(-10,
+                          "",
+                          invalidAircraft,
+                          500,
+                          FlightStatus::Scheduled);
 
     std::cout << "Попытка создать рейс с некорректными данными:"
               << std::endl;

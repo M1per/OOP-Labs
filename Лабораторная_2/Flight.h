@@ -2,24 +2,25 @@
 #define FLIGHT_H
 
 #include <string>
+#include "Aircraft.h"
 
 /**
  * @brief Статус авиарейса.
  */
 enum class FlightStatus
 {
-    Scheduled,   ///< Рейс запланирован
-    Registration,///< Идёт регистрация пассажиров
-    Departed,    ///< Рейс вылетел
-    Completed,   ///< Рейс завершён
-    Cancelled    ///< Рейс отменён
+    Scheduled,    ///< Рейс запланирован
+    Registration, ///< Идёт регистрация пассажиров
+    Departed,     ///< Рейс вылетел
+    Completed,    ///< Рейс завершён
+    Cancelled     ///< Рейс отменён
 };
 
 /**
  * @brief Класс, представляющий авиарейс.
  *
  * Класс хранит основную информацию о рейсе:
- * номер, пункт назначения, вместимость самолёта,
+ * номер, пункт назначения, самолёт,
  * количество пассажиров и текущий статус.
  */
 class Flight
@@ -27,7 +28,7 @@ class Flight
 private:
     int flightNumber;              ///< Номер рейса
     std::string destination;       ///< Пункт назначения
-    int capacity;                  ///< Вместимость самолёта
+    Aircraft aircraft;             ///< Самолёт рейса
     int passengerCount;            ///< Количество пассажиров
     FlightStatus status;           ///< Статус рейса
 
@@ -37,9 +38,7 @@ public:
     /**
      * @brief Конструктор без параметров.
      *
-     * Создаёт рейс со стандартными значениями:
-     * номер 1, пункт назначения "Не указано",
-     * вместимость 100 и без пассажиров.
+     * Создаёт рейс со стандартными значениями.
      */
     Flight();
 
@@ -48,30 +47,24 @@ public:
      *
      * @param number Номер рейса.
      * @param destination Пункт назначения.
-     * @param capacity Вместимость самолёта.
-     *
-     * Если переданы некорректные значения,
-     * используются значения по умолчанию.
+     * @param aircraft Самолёт рейса.
      */
     Flight(int number,
            const std::string& destination,
-           int capacity);
+           const Aircraft& aircraft);
 
     /**
      * @brief Конструктор со всеми параметрами.
      *
      * @param number Номер рейса.
      * @param destination Пункт назначения.
-     * @param capacity Вместимость самолёта.
+     * @param aircraft Самолёт рейса.
      * @param passengers Количество пассажиров.
      * @param status Статус рейса.
-     *
-     * Если количество пассажиров выходит за допустимые
-     * пределы, устанавливается значение 0.
      */
     Flight(int number,
            const std::string& destination,
-           int capacity,
+           const Aircraft& aircraft,
            int passengers,
            FlightStatus status);
 
@@ -97,6 +90,13 @@ public:
     std::string getDestination() const;
 
     /**
+     * @brief Возвращает самолёт рейса.
+     *
+     * @return Самолёт.
+     */
+    Aircraft getAircraft() const;
+
+    /**
      * @brief Возвращает вместимость самолёта.
      *
      * @return Вместимость самолёта.
@@ -120,9 +120,6 @@ public:
     /**
      * @brief Добавляет одного пассажира.
      *
-     * Пассажир добавляется только в том случае,
-     * если самолёт ещё не заполнен.
-     *
      * @return true, если пассажир успешно добавлен;
      * false, если самолёт заполнен.
      */
@@ -130,9 +127,6 @@ public:
 
     /**
      * @brief Удаляет одного пассажира.
-     *
-     * Пассажир удаляется только при наличии
-     * хотя бы одного пассажира.
      *
      * @return true, если пассажир успешно удалён;
      * false, если пассажиров нет.
@@ -148,9 +142,6 @@ public:
 
     /**
      * @brief Выводит информацию о рейсе.
-     *
-     * Выводит номер, пункт назначения,
-     * вместимость, количество пассажиров и статус.
      */
     void printInfo() const;
 

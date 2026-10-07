@@ -14,7 +14,7 @@ int Flight::objectCount = 0;
 Flight::Flight()
     : flightNumber(1),
       destination("Не указано"),
-      capacity(100),
+      aircraft(),
       passengerCount(0),
       status(FlightStatus::Scheduled)
 {
@@ -26,14 +26,14 @@ Flight::Flight()
  *
  * @param number Номер рейса.
  * @param destination Пункт назначения.
- * @param capacity Вместимость самолёта.
+ * @param aircraft Самолёт рейса.
  */
 Flight::Flight(int number,
                const std::string& destination,
-               int capacity)
+               const Aircraft& aircraft)
     : flightNumber(number > 0 ? number : 1),
       destination(destination.empty() ? "Не указано" : destination),
-      capacity(capacity > 0 ? capacity : 100),
+      aircraft(aircraft),
       passengerCount(0),
       status(FlightStatus::Scheduled)
 {
@@ -45,22 +45,22 @@ Flight::Flight(int number,
  *
  * @param number Номер рейса.
  * @param destination Пункт назначения.
- * @param capacity Вместимость самолёта.
+ * @param aircraft Самолёт рейса.
  * @param passengers Количество пассажиров.
  * @param status Статус рейса.
  */
 Flight::Flight(int number,
                const std::string& destination,
-               int capacity,
+               const Aircraft& aircraft,
                int passengers,
                FlightStatus status)
     : flightNumber(number > 0 ? number : 1),
       destination(destination.empty() ? "Не указано" : destination),
-      capacity(capacity > 0 ? capacity : 100),
+      aircraft(aircraft),
       passengerCount(0),
       status(status)
 {
-    if (passengers >= 0 && passengers <= this->capacity)
+    if (passengers >= 0 && passengers <= this->aircraft.getCapacity())
     {
         passengerCount = passengers;
     }
@@ -101,13 +101,23 @@ std::string Flight::getDestination() const
 }
 
 /**
+ * @brief Возвращает самолёт рейса.
+ *
+ * @return Самолёт.
+ */
+Aircraft Flight::getAircraft() const
+{
+    return aircraft;
+}
+
+/**
  * @brief Возвращает вместимость самолёта.
  *
  * @return Вместимость самолёта.
  */
 int Flight::getCapacity() const
 {
-    return capacity;
+    return aircraft.getCapacity();
 }
 
 /**
@@ -121,7 +131,7 @@ int Flight::getPassengerCount() const
 }
 
 /**
- * @brief Возвращает статус рейса.
+ * @brief Возвращает текущий статус рейса.
  *
  * @return Текущий статус.
  */
@@ -138,7 +148,7 @@ FlightStatus Flight::getStatus() const
  */
 bool Flight::addPassenger()
 {
-    if (passengerCount >= capacity)
+    if (passengerCount >= aircraft.getCapacity())
     {
         return false;
     }
@@ -181,7 +191,8 @@ void Flight::printInfo() const
 {
     std::cout << "Рейс №" << flightNumber << std::endl;
     std::cout << "Пункт назначения: " << destination << std::endl;
-    std::cout << "Вместимость: " << capacity << std::endl;
+    std::cout << "Самолёт: " << aircraft.getModel() << std::endl;
+    std::cout << "Вместимость: " << aircraft.getCapacity() << std::endl;
     std::cout << "Пассажиров: " << passengerCount << std::endl;
 
     std::cout << "Статус: ";
