@@ -4,6 +4,7 @@
 #include <iostream>
 #include <limits>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 struct Event {
@@ -278,16 +279,37 @@ void demonstrateOperators() {
     std::cout << "  Счётчик после вызовов: "
               << constantTime.getAccessCount() << '\n';
 
-    std::cout << "  Конструктор Time(int) объявлен explicit.\n"
-              << "  Неявное преобразование int в Time запрещено.\n"
-              << "  Явное создание Time(3600): " << Time(3600) << '\n';
+    printResult(
+        "Неявное преобразование int в Time запрещено:",
+        !std::is_convertible<int, Time>::value
+    );
+
+    std::cout << "  Явное создание Time(3600): "
+              << Time(3600) << '\n';
 }
 
 void showStatistics() {
     printHeader("СТАТИСТИКА ОБЪЕКТОВ");
 
-    std::cout << "  Количество существующих объектов Time: "
+    int before = Time::getObjectCount();
+
+    std::cout << "  Объектов до проверки: "
+              << before << '\n';
+
+    {
+        Time temporary;
+
+        std::cout << "  После создания объекта: "
+                  << Time::getObjectCount() << '\n';
+    }
+
+    std::cout << "  После уничтожения объекта: "
               << Time::getObjectCount() << '\n';
+
+    printResult(
+        "Счётчик восстановился после деструктора:",
+        Time::getObjectCount() == before
+    );
 }
 
 int main() {
