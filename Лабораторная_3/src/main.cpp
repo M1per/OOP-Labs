@@ -4,74 +4,62 @@
 #include <iostream>
 #include <limits>
 #include <string>
+#include <type_traits>
 #include <vector>
 
-/**
- * @brief Событие в дневном расписании.
- *
- * Содержит название, время начала и время окончания.
- */
+static_assert(
+    !std::is_convertible<int, Time>::value,
+    "Time(int) должен запрещать неявное преобразование из int"
+);
+
 struct Event {
     std::string name;
     Time start;
     Time end;
 
-    /**
-     * @brief Создаёт событие.
-     * @param eventName Название события.
-     * @param eventStart Время начала.
-     * @param eventEnd Время окончания.
-     */
-    Event(const std::string& eventName,
-          const Time& eventStart,
-          const Time& eventEnd)
+    Event(
+        const std::string& eventName,
+        const Time& eventStart,
+        const Time& eventEnd
+    )
         : name(eventName), start(eventStart), end(eventEnd) {}
 };
 
-/** Строка для оформления интерфейса. */
-const std::string LINE(66, '=');
+const std::string LINE(72, '=');
+const std::string SEPARATOR(72, '-');
 
-/** Разделительная строка. */
-const std::string SEPARATOR(66, '-');
-
-/**
- * @brief Выводит заголовок раздела.
- * @param title Название раздела.
- */
 void printHeader(const std::string& title) {
-    std::cout << '\n' << LINE << '\n'
+    std::cout << '\n'
+              << LINE << '\n'
               << "  " << title << '\n'
               << LINE << '\n';
 }
 
-/**
- * @brief Выводит результат логической проверки.
- * @param description Описание проверки.
- * @param result Результат проверки.
- */
 void printResult(const std::string& description, bool result) {
-    std::cout << "  " << std::left << std::setw(42) << description
+    std::cout << "  "
+              << std::left << std::setw(44) << description
               << (result ? "Да" : "Нет") << '\n';
 }
 
-/**
- * @brief Считывает целое число в заданном диапазоне.
- * @param prompt Приглашение для ввода.
- * @param minValue Минимально допустимое значение.
- * @param maxValue Максимально допустимое значение.
- * @return Корректно введённое число.
- */
-int readInt(const std::string& prompt, int minValue, int maxValue) {
+int readInt(
+    const std::string& prompt,
+    int minValue,
+    int maxValue
+) {
     int value;
 
     while (true) {
         std::cout << prompt;
 
-        if (std::cin >> value && value >= minValue && value <= maxValue) {
+        if (std::cin >> value &&
+            value >= minValue &&
+            value <= maxValue) {
+
             std::cin.ignore(
                 std::numeric_limits<std::streamsize>::max(),
                 '\n'
             );
+
             return value;
         }
 
@@ -79,6 +67,7 @@ int readInt(const std::string& prompt, int minValue, int maxValue) {
                   << minValue << " до " << maxValue << ".\n";
 
         std::cin.clear();
+
         std::cin.ignore(
             std::numeric_limits<std::streamsize>::max(),
             '\n'
@@ -86,11 +75,6 @@ int readInt(const std::string& prompt, int minValue, int maxValue) {
     }
 }
 
-/**
- * @brief Считывает непустую строку.
- * @param prompt Приглашение для ввода.
- * @return Введённый текст.
- */
 std::string readText(const std::string& prompt) {
     std::string text;
 
@@ -106,24 +90,16 @@ std::string readText(const std::string& prompt) {
     }
 }
 
-/**
- * @brief Считывает время с клавиатуры.
- * @param title Заголовок раздела ввода.
- * @return Созданный объект времени.
- */
 Time readTime(const std::string& title) {
     printHeader(title);
 
-    int hours = readInt("  Часы    [0-23]: ", 0, 23);
-    int minutes = readInt("  Минуты  [0-59]: ", 0, 59);
-    int seconds = readInt("  Секунды [0-59]: ", 0, 59);
+    const int hours = readInt("  Часы    [0-23]: ", 0, 23);
+    const int minutes = readInt("  Минуты  [0-59]: ", 0, 59);
+    const int seconds = readInt("  Секунды [0-59]: ", 0, 59);
 
-    return Time(hours, minutes, seconds);
+    return Time::fromHMS(hours, minutes, seconds);
 }
 
-/**
- * @brief Отображает главное меню приложения.
- */
 void showMenu() {
     printHeader("ГЛАВНОЕ МЕНЮ");
 
@@ -138,10 +114,6 @@ void showMenu() {
         << SEPARATOR << '\n';
 }
 
-/**
- * @brief Выводит все события расписания.
- * @param events Вектор событий.
- */
 void showSchedule(const std::vector<Event>& events) {
     printHeader("РАСПИСАНИЕ НА ДЕНЬ");
 
@@ -150,23 +122,26 @@ void showSchedule(const std::vector<Event>& events) {
         return;
     }
 
-    std::cout << "  " << std::left
+    std::cout << "  "
+              << std::left
               << std::setw(5) << "№"
-              << std::setw(25) << "Событие"
+              << std::setw(28) << "Событие"
               << std::setw(17) << "Начало"
-              << "Окончание\n"
-              << "  " << SEPARATOR << '\n';
+              << "Окончание\n";
+
+    std::cout << "  " << SEPARATOR << '\n';
 
     for (std::size_t i = 0; i < events.size(); ++i) {
         std::string name = events[i].name;
 
-        if (name.length() > 23) {
-            name = name.substr(0, 20) + "...";
+        if (name.length() > 26) {
+            name = name.substr(0, 23) + "...";
         }
 
         std::cout << "  "
-                  << std::left << std::setw(5) << i + 1
-                  << std::setw(25) << name
+                  << std::left
+                  << std::setw(5) << i + 1
+                  << std::setw(28) << name
                   << std::setw(17) << events[i].start
                   << events[i].end << '\n';
     }
@@ -175,22 +150,15 @@ void showSchedule(const std::vector<Event>& events) {
               << "  Всего событий: " << events.size() << '\n';
 }
 
-/**
- * @brief Добавляет новое событие в расписание.
- * @param events Вектор событий.
- *
- * Названия событий должны быть уникальными.
- * Время окончания не может быть раньше времени начала.
- */
 void addEvent(std::vector<Event>& events) {
     printHeader("ДОБАВЛЕНИЕ СОБЫТИЯ");
 
-    std::string name = readText("  Название события: ");
+    const std::string name = readText("  Название события: ");
 
     for (const Event& event : events) {
         if (event.name == name) {
-            std::cout << "\n  Ошибка: событие с названием \""
-                      << name << "\" уже существует.\n";
+            std::cout
+                << "\n  Ошибка: событие с таким названием уже существует.\n";
             return;
         }
     }
@@ -199,21 +167,18 @@ void addEvent(std::vector<Event>& events) {
     Time end = readTime("ВРЕМЯ ОКОНЧАНИЯ");
 
     if (end < start) {
-        std::cout << "\n  Ошибка: время окончания раньше времени начала.\n"
-                  << "  Событие не добавлено.\n";
+        std::cout
+            << "\n  Ошибка: время окончания раньше времени начала.\n"
+            << "  Событие не добавлено.\n";
+
         return;
     }
 
     events.emplace_back(name, start, end);
+
     std::cout << "\n  Событие добавлено.\n";
 }
 
-/**
- * @brief Изменяет название и время выбранного события.
- * @param events Вектор событий.
- *
- * Проверяет корректность времени и уникальность названия.
- */
 void changeEventTime(std::vector<Event>& events) {
     printHeader("ИЗМЕНЕНИЕ СОБЫТИЯ");
 
@@ -224,20 +189,23 @@ void changeEventTime(std::vector<Event>& events) {
 
     showSchedule(events);
 
-    int index = readInt(
+    const int index = readInt(
         "\n  Номер события: ",
         1,
         static_cast<int>(events.size())
     );
 
-    std::string newName = readText("  Новое название события: ");
+    const std::string newName =
+        readText("  Новое название события: ");
 
     for (std::size_t i = 0; i < events.size(); ++i) {
         if (i != static_cast<std::size_t>(index - 1) &&
             events[i].name == newName) {
-            std::cout << "\n  Ошибка: событие с названием \""
-                      << newName << "\" уже существует.\n"
-                      << "  Изменения не сохранены.\n";
+
+            std::cout
+                << "\n  Ошибка: событие с таким названием уже существует.\n"
+                << "  Изменения не сохранены.\n";
+
             return;
         }
     }
@@ -246,48 +214,42 @@ void changeEventTime(std::vector<Event>& events) {
     Time end = readTime("НОВОЕ ВРЕМЯ ОКОНЧАНИЯ");
 
     if (end < start) {
-        std::cout << "\n  Ошибка: время окончания раньше начала.\n"
-                  << "  Изменения не сохранены.\n";
+        std::cout
+            << "\n  Ошибка: время окончания раньше времени начала.\n"
+            << "  Изменения не сохранены.\n";
+
         return;
     }
 
-    events[index - 1].name = newName;
-    events[index - 1].start = start;
-    events[index - 1].end = end;
+    Event& event = events[static_cast<std::size_t>(index - 1)];
 
-    std::cout << "\n  Событие \"" << newName << "\" изменено.\n";
+    event.name = newName;
+    event.start = start;
+    event.end = end;
+
+    std::cout << "\n  Событие изменено.\n";
 }
 
-/**
- * @brief Сравнивает два введённых значения времени.
- *
- * Демонстрирует работу всех шести операторов сравнения.
- */
 void compareTimes() {
     printHeader("СРАВНЕНИЕ ВРЕМЕНИ");
 
     Time first = readTime("ПЕРВОЕ ВРЕМЯ");
     Time second = readTime("ВТОРОЕ ВРЕМЯ");
 
-    std::cout << '\n' << SEPARATOR << '\n'
+    std::cout << '\n'
+              << SEPARATOR << '\n'
               << "  Первое время:  " << first << '\n'
               << "  Второе время:  " << second << '\n'
               << SEPARATOR << '\n';
 
     printResult("Первое время меньше второго:", first < second);
     printResult("Первое время больше второго:", first > second);
-    printResult("Первое время меньше или равно:", first <= second);
-    printResult("Первое время больше или равно:", first >= second);
+    printResult("Первое меньше или равно второму:", first <= second);
+    printResult("Первое больше или равно второму:", first >= second);
     printResult("Время одинаковое:", first == second);
     printResult("Время различается:", first != second);
 }
 
-/**
- * @brief Демонстрирует перегруженные операторы класса Time.
- *
- * Проверяет арифметические, унарные и составные операторы,
- * а также работу const, mutable и explicit.
- */
 void demonstrateOperators() {
     printHeader("ДЕМОНСТРАЦИЯ ОПЕРАТОРОВ");
 
@@ -296,16 +258,20 @@ void demonstrateOperators() {
 
     printHeader("АРИФМЕТИЧЕСКИЕ ОПЕРАТОРЫ");
 
-    std::cout << "  Первое время:       " << first << '\n'
-              << "  Второе время:       " << second << '\n'
-              << "  Сложение (+):       " << first + second << '\n'
-              << "  Вычитание (-):      " << first - second << '\n'
-              << "  Умножение (*):      " << first * second << '\n';
+    std::cout
+        << "  Первое время:       " << first << '\n'
+        << "  Второе время:       " << second << '\n'
+        << "  Сложение (+):       " << first + second << '\n'
+        << "  Вычитание (-):      " << first - second << '\n'
+        << "  Умножение (*):      " << first * second << '\n';
 
     if (second.getTotalSeconds() != 0) {
-        std::cout << "  Деление (/):        " << first / second << '\n';
+        std::cout
+            << "  Деление (/):        "
+            << first / second << '\n';
     } else {
-        std::cout << "  Деление (/):        невозможно, делитель равен нулю\n";
+        std::cout
+            << "  Деление (/):        невозможно, делитель равен нулю\n";
     }
 
     printHeader("УНАРНЫЕ ОПЕРАТОРЫ");
@@ -337,6 +303,7 @@ void demonstrateOperators() {
     if (second.getTotalSeconds() != 0) {
         value = first;
         value /= second;
+
         std::cout << "  После /=: " << value << '\n';
     } else {
         std::cout << "  После /=: деление на ноль невозможно\n";
@@ -344,48 +311,64 @@ void demonstrateOperators() {
 
     printHeader("CONST, MUTABLE И EXPLICIT");
 
-    const Time constantTime(12, 30, 0);
+    const Time constantTime = Time::fromHMS(12, 30, 0);
 
-    std::cout << "  Константный объект: " << constantTime << '\n'
-              << "  Счётчик до вызовов: "
-              << constantTime.getAccessCount() << '\n';
+    std::cout
+        << "  Константный объект: " << constantTime << '\n'
+        << "  Счётчик до вызовов: "
+        << constantTime.getAccessCount() << '\n';
 
     constantTime.getHours();
     constantTime.getMinutes();
     constantTime.getSeconds();
 
-    std::cout << "  Счётчик после вызовов: "
-              << constantTime.getAccessCount() << '\n';
+    std::cout
+        << "  Счётчик после вызовов: "
+        << constantTime.getAccessCount() << '\n';
 
-    std::cout << "  Конструктор Time(int) объявлен explicit.\n"
-              << "  Неявное преобразование int в Time запрещено.\n"
-              << "  Явное создание Time(3600): " << Time(3600) << '\n';
+    std::cout
+        << "  Проверка explicit: static_assert успешно скомпилирован.\n"
+        << "  Неявное преобразование int в Time запрещено.\n";
+
+    Time explicitTime(3600);
+
+    std::cout
+        << "  Явное создание Time(3600): "
+        << explicitTime << '\n';
+
+    printHeader("КОНСТРУКТОРЫ");
+
+    Time defaultTime;
+    Time secondsTime(3661);
+    Time copiedTime(secondsTime);
+
+    std::cout
+        << "  Конструктор по умолчанию: " << defaultTime << '\n'
+        << "  Конструктор Time(int):    " << secondsTime << '\n'
+        << "  Конструктор копирования:  " << copiedTime << '\n'
+        << "  Фабричный метод fromHMS:  "
+        << Time::fromHMS(1, 1, 1) << '\n';
 }
 
-/**
- * @brief Выводит статистику существующих объектов Time.
- */
 void showStatistics() {
     printHeader("СТАТИСТИКА ОБЪЕКТОВ");
 
-    std::cout << "  Количество существующих объектов Time: "
-              << Time::getObjectCount() << '\n';
+    std::cout
+        << "  Количество существующих объектов Time: "
+        << Time::getObjectCount() << '\n';
 }
 
-/**
- * @brief Главная функция приложения.
- * @return 0 при нормальном завершении.
- *
- * Создаёт расписание и обрабатывает действия пользователя
- * до выбора пункта выхода.
- */
 int main() {
     std::vector<Event> events;
 
     while (true) {
         showMenu();
 
-        int choice = readInt("  Выберите действие: ", 0, 6);
+        const int choice = readInt(
+            "  Выберите действие: ",
+            0,
+            6
+        );
 
         switch (choice) {
             case 1:
