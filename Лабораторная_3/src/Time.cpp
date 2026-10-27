@@ -12,7 +12,6 @@ int Time::objectCount = 0;
 
 /**
  * @brief Нормализует время в пределах одних суток.
- * @param seconds Исходное количество секунд.
  * @return Количество секунд в диапазоне от 0 до 86399.
  */
 int Time::normalize(int seconds) {
@@ -36,7 +35,6 @@ Time::Time()
 
 /**
  * @brief Создаёт объект по количеству секунд.
- * @param seconds Количество секунд.
  */
 Time::Time(int seconds)
     : totalSeconds(normalize(seconds)), accessCount(0) {
@@ -45,9 +43,6 @@ Time::Time(int seconds)
 
 /**
  * @brief Создаёт объект по часам, минутам и секундам.
- * @param hours Часы.
- * @param minutes Минуты.
- * @param seconds Секунды.
  * @throws std::invalid_argument При некорректных значениях времени.
  */
 Time::Time(int hours, int minutes, int seconds)
@@ -169,7 +164,6 @@ Time Time::operator--(int) {
 
 /**
  * @brief Прибавляет другое время к текущему.
- * @param other Второе время.
  * @return Ссылка на изменённый объект.
  */
 Time& Time::operator+=(const Time& other) {
@@ -179,7 +173,6 @@ Time& Time::operator+=(const Time& other) {
 
 /**
  * @brief Вычитает другое время из текущего.
- * @param other Вычитаемое время.
  * @return Ссылка на изменённый объект.
  */
 Time& Time::operator-=(const Time& other) {
@@ -189,7 +182,6 @@ Time& Time::operator-=(const Time& other) {
 
 /**
  * @brief Умножает текущее время на другое.
- * @param other Второе время.
  * @return Ссылка на изменённый объект.
  */
 Time& Time::operator*=(const Time& other) {
@@ -199,7 +191,6 @@ Time& Time::operator*=(const Time& other) {
 
 /**
  * @brief Делит текущее время на другое.
- * @param other Делитель.
  * @return Ссылка на изменённый объект.
  * @throws std::invalid_argument Если делитель равен нулю.
  */
@@ -214,8 +205,6 @@ Time& Time::operator/=(const Time& other) {
 
 /**
  * @brief Складывает два значения времени.
- * @param lhs Первое время.
- * @param rhs Второе время.
  * @return Результат сложения.
  */
 Time operator+(Time lhs, const Time& rhs) {
@@ -225,8 +214,6 @@ Time operator+(Time lhs, const Time& rhs) {
 
 /**
  * @brief Вычитает второе время из первого.
- * @param lhs Первое время.
- * @param rhs Второе время.
  * @return Результат вычитания.
  */
 Time operator-(Time lhs, const Time& rhs) {
@@ -236,8 +223,6 @@ Time operator-(Time lhs, const Time& rhs) {
 
 /**
  * @brief Умножает два значения времени.
- * @param lhs Первое время.
- * @param rhs Второе время.
  * @return Результат умножения.
  */
 Time operator*(Time lhs, const Time& rhs) {
@@ -247,8 +232,6 @@ Time operator*(Time lhs, const Time& rhs) {
 
 /**
  * @brief Делит первое время на второе.
- * @param lhs Делимое.
- * @param rhs Делитель.
  * @return Результат деления.
  * @throws std::invalid_argument Если делитель равен нулю.
  */
@@ -259,7 +242,6 @@ Time operator/(Time lhs, const Time& rhs) {
 
 /**
  * @brief Проверяет, меньше ли текущее время указанного.
- * @param other Время для сравнения.
  * @return true, если текущее время меньше.
  */
 bool Time::operator<(const Time& other) const {
@@ -268,7 +250,6 @@ bool Time::operator<(const Time& other) const {
 
 /**
  * @brief Проверяет, больше ли текущее время указанного.
- * @param other Время для сравнения.
  * @return true, если текущее время больше.
  */
 bool Time::operator>(const Time& other) const {
@@ -277,7 +258,6 @@ bool Time::operator>(const Time& other) const {
 
 /**
  * @brief Проверяет, меньше ли текущее время указанного или равно ему.
- * @param other Время для сравнения.
  * @return true, если текущее время меньше или равно.
  */
 bool Time::operator<=(const Time& other) const {
@@ -286,7 +266,6 @@ bool Time::operator<=(const Time& other) const {
 
 /**
  * @brief Проверяет, больше ли текущее время указанного или равно ему.
- * @param other Время для сравнения.
  * @return true, если текущее время больше или равно.
  */
 bool Time::operator>=(const Time& other) const {
@@ -295,7 +274,6 @@ bool Time::operator>=(const Time& other) const {
 
 /**
  * @brief Проверяет равенство двух значений времени.
- * @param other Время для сравнения.
  * @return true, если времена равны.
  */
 bool Time::operator==(const Time& other) const {
@@ -304,7 +282,6 @@ bool Time::operator==(const Time& other) const {
 
 /**
  * @brief Проверяет неравенство двух значений времени.
- * @param other Время для сравнения.
  * @return true, если времена не равны.
  */
 bool Time::operator!=(const Time& other) const {
@@ -321,8 +298,6 @@ int Time::getObjectCount() {
 
 /**
  * @brief Выводит время в поток.
- * @param out Поток вывода.
- * @param time Выводимое время.
  * @return Ссылка на поток вывода.
  */
 std::ostream& operator<<(std::ostream& out, const Time& time) {
