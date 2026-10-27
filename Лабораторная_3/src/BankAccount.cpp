@@ -6,19 +6,28 @@
 BankAccount::BankAccount(const std::string& owner)
     : owner_(owner), balance_() {
     if (owner_.empty()) {
-        throw std::invalid_argument("Имя владельца не может быть пустым");
+        throw std::invalid_argument(
+            "Имя владельца не может быть пустым"
+        );
     }
 
     addHistory("Счёт открыт");
 }
 
-BankAccount::BankAccount(const std::string& owner, const Money& initialBalance)
+BankAccount::BankAccount(
+    const std::string& owner,
+    const Money& initialBalance
+)
     : owner_(owner), balance_(initialBalance) {
     if (owner_.empty()) {
-        throw std::invalid_argument("Имя владельца не может быть пустым");
+        throw std::invalid_argument(
+            "Имя владельца не может быть пустым"
+        );
     }
 
-    addHistory("Счёт открыт. Начальный баланс: " + balance_.toString());
+    addHistory(
+        "Счёт открыт. Начальный баланс: " + balance_.toString()
+    );
 }
 
 const std::string& BankAccount::getOwner() const {

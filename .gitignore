@@ -9,3 +9,8 @@ task3
 flight
 docs/
 flight
+
+# Сборка лабораторной работы № 3
+Лабораторная_3/build/
+Лабораторная_3/docs/html/
+Лабораторная_3/docs/latex/

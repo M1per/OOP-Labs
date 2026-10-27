@@ -15,7 +15,9 @@ Money::Money()
 Money::Money(std::int64_t kopecks)
     : kopecks_(kopecks), accessCount_(0) {
     if (kopecks < 0) {
-        throw std::invalid_argument("Сумма не может быть отрицательной");
+        throw std::invalid_argument(
+            "Сумма не может быть отрицательной"
+        );
     }
 
     ++objectCount_;
@@ -24,11 +26,16 @@ Money::Money(std::int64_t kopecks)
 Money::Money(std::int64_t rubles, std::int64_t kopecks)
     : kopecks_(0), accessCount_(0) {
     if (rubles < 0 || kopecks < 0) {
-        throw std::invalid_argument("Рубли и копейки не могут быть отрицательными");
+        throw std::invalid_argument(
+            "Рубли и копейки не могут быть отрицательными"
+        );
     }
 
-    if (rubles > (std::numeric_limits<std::int64_t>::max() - kopecks) / 100) {
-        throw std::overflow_error("Переполнение денежной суммы");
+    if (rubles >
+        (std::numeric_limits<std::int64_t>::max() - kopecks) / 100) {
+        throw std::overflow_error(
+            "Переполнение денежной суммы"
+        );
     }
 
     kopecks_ = rubles * 100 + kopecks;
@@ -38,6 +45,15 @@ Money::Money(std::int64_t rubles, std::int64_t kopecks)
 Money::Money(const Money& other)
     : kopecks_(other.kopecks_), accessCount_(0) {
     ++objectCount_;
+}
+
+Money& Money::operator=(const Money& other) {
+    if (this != &other) {
+        kopecks_ = other.kopecks_;
+        accessCount_ = 0;
+    }
+
+    return *this;
 }
 
 Money::~Money() {
@@ -78,7 +94,9 @@ std::string Money::toString() const {
 
 Money& Money::operator++() {
     if (kopecks_ == std::numeric_limits<std::int64_t>::max()) {
-        throw std::overflow_error("Переполнение денежной суммы");
+        throw std::overflow_error(
+            "Переполнение денежной суммы"
+        );
     }
 
     ++kopecks_;
@@ -93,7 +111,9 @@ Money Money::operator++(int) {
 
 Money& Money::operator--() {
     if (kopecks_ == 0) {
-        throw std::underflow_error("Сумма не может быть отрицательной");
+        throw std::underflow_error(
+            "Сумма не может быть отрицательной"
+        );
     }
 
     --kopecks_;
@@ -109,7 +129,9 @@ Money Money::operator--(int) {
 Money& Money::operator+=(const Money& other) {
     if (other.kopecks_ >
         std::numeric_limits<std::int64_t>::max() - kopecks_) {
-        throw std::overflow_error("Переполнение денежной суммы");
+        throw std::overflow_error(
+            "Переполнение денежной суммы"
+        );
     }
 
     kopecks_ += other.kopecks_;
@@ -118,7 +140,9 @@ Money& Money::operator+=(const Money& other) {
 
 Money& Money::operator-=(const Money& other) {
     if (kopecks_ < other.kopecks_) {
-        throw std::underflow_error("Недостаточно средств");
+        throw std::underflow_error(
+            "Недостаточно средств"
+        );
     }
 
     kopecks_ -= other.kopecks_;
@@ -127,12 +151,17 @@ Money& Money::operator-=(const Money& other) {
 
 Money& Money::operator*=(std::int64_t multiplier) {
     if (multiplier < 0) {
-        throw std::invalid_argument("Множитель не может быть отрицательным");
+        throw std::invalid_argument(
+            "Множитель не может быть отрицательным"
+        );
     }
 
     if (multiplier != 0 &&
-        kopecks_ > std::numeric_limits<std::int64_t>::max() / multiplier) {
-        throw std::overflow_error("Переполнение денежной суммы");
+        kopecks_ >
+        std::numeric_limits<std::int64_t>::max() / multiplier) {
+        throw std::overflow_error(
+            "Переполнение денежной суммы"
+        );
     }
 
     kopecks_ *= multiplier;
@@ -141,7 +170,9 @@ Money& Money::operator*=(std::int64_t multiplier) {
 
 Money& Money::operator/=(std::int64_t divisor) {
     if (divisor <= 0) {
-        throw std::invalid_argument("Делитель должен быть положительным");
+        throw std::invalid_argument(
+            "Делитель должен быть положительным"
+        );
     }
 
     kopecks_ /= divisor;
