@@ -40,6 +40,20 @@ Time::Time(int hours, int minutes, int seconds)
     ++objectCount;
 }
 
+Time::Time(const Time& other)
+    : totalSeconds(other.totalSeconds), accessCount(0) {
+    ++objectCount;
+}
+
+Time& Time::operator=(const Time& other) {
+    if (this != &other) {
+        totalSeconds = other.totalSeconds;
+        accessCount = 0;
+    }
+
+    return *this;
+}
+
 Time::~Time() {
     --objectCount;
 }

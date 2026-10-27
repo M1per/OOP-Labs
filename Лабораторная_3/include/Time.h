@@ -16,6 +16,8 @@ public:
     Time();
     explicit Time(int seconds);
     Time(int hours, int minutes, int seconds);
+    Time(const Time& other);
+    Time& operator=(const Time& other);
     ~Time();
 
     int getHours() const;
