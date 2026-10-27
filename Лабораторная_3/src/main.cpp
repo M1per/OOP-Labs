@@ -66,9 +66,9 @@ std::string readText(const std::string& prompt) {
 Time readTime(const std::string& title) {
     printHeader(title);
 
-    int hours = readInt("  Часы   [0-23]: ", 0, 23);
-    int minutes = readInt("  Минуты [0-59]: ", 0, 59);
-    int seconds = readInt("  Секунды[0-59]: ", 0, 59);
+    int hours = readInt("  Часы    [0-23]: ", 0, 23);
+    int minutes = readInt("  Минуты  [0-59]: ", 0, 59);
+    int seconds = readInt("  Секунды [0-59]: ", 0, 59);
 
     return Time(hours, minutes, seconds);
 }
@@ -79,7 +79,7 @@ void showMenu() {
     std::cout
         << "  1. Просмотреть расписание\n"
         << "  2. Добавить событие\n"
-        << "  3. Изменить время события\n"
+        << "  3. Изменить событие\n"
         << "  4. Сравнить два времени\n"
         << "  5. Демонстрация операторов класса Time\n"
         << "  6. Статистика объектов\n"
@@ -91,7 +91,7 @@ void showSchedule(const std::vector<Event>& events) {
     printHeader("РАСПИСАНИЕ НА ДЕНЬ");
 
     if (events.empty()) {
-        std::cout << "  Расписание пока пустое.\n";
+        std::cout << "  Расписание пустое.\n";
         return;
     }
 
@@ -124,6 +124,15 @@ void addEvent(std::vector<Event>& events) {
     printHeader("ДОБАВЛЕНИЕ СОБЫТИЯ");
 
     std::string name = readText("  Название события: ");
+
+    for (const Event& event : events) {
+        if (event.name == name) {
+            std::cout << "\n  Ошибка: событие с названием \""
+                      << name << "\" уже существует.\n";
+            return;
+        }
+    }
+
     Time start = readTime("ВРЕМЯ НАЧАЛА");
     Time end = readTime("ВРЕМЯ ОКОНЧАНИЯ");
 
@@ -134,11 +143,7 @@ void addEvent(std::vector<Event>& events) {
     }
 
     events.emplace_back(name, start, end);
-
-    std::cout << "\n  Событие успешно добавлено!\n"
-              << "  Название: " << name << '\n'
-              << "  Начало:   " << start << '\n'
-              << "  Окончание:" << ' ' << end << '\n';
+    std::cout << "\n  Событие добавлено.\n";
 }
 
 void changeEventTime(std::vector<Event>& events) {
@@ -157,6 +162,18 @@ void changeEventTime(std::vector<Event>& events) {
         static_cast<int>(events.size())
     );
 
+    std::string newName = readText("  Новое название события: ");
+
+    for (std::size_t i = 0; i < events.size(); ++i) {
+        if (i != static_cast<std::size_t>(index - 1) &&
+            events[i].name == newName) {
+            std::cout << "\n  Ошибка: событие с названием \""
+                      << newName << "\" уже существует.\n"
+                      << "  Изменения не сохранены.\n";
+            return;
+        }
+    }
+
     Time start = readTime("НОВОЕ ВРЕМЯ НАЧАЛА");
     Time end = readTime("НОВОЕ ВРЕМЯ ОКОНЧАНИЯ");
 
@@ -166,12 +183,11 @@ void changeEventTime(std::vector<Event>& events) {
         return;
     }
 
+    events[index - 1].name = newName;
     events[index - 1].start = start;
     events[index - 1].end = end;
 
-    std::cout << "\n  Время события \""
-              << events[index - 1].name
-              << "\" успешно изменено.\n";
+    std::cout << "\n  Событие \"" << newName << "\" изменено.\n";
 }
 
 void compareTimes() {
@@ -217,42 +233,42 @@ void demonstrateOperators() {
 
     Time value = first;
 
-    std::cout << "  Исходное значение:  " << value << '\n';
-    std::cout << "  Префиксный ++:      " << ++value << '\n';
-    std::cout << "  Постфиксный ++:     " << value++ << '\n';
+    std::cout << "  Исходное значение:     " << value << '\n';
+    std::cout << "  Префиксный ++:         " << ++value << '\n';
+    std::cout << "  Постфиксный ++:        " << value++ << '\n';
     std::cout << "  После постфиксного ++: " << value << '\n';
-    std::cout << "  Префиксный --:      " << --value << '\n';
-    std::cout << "  Постфиксный --:     " << value-- << '\n';
+    std::cout << "  Префиксный --:         " << --value << '\n';
+    std::cout << "  Постфиксный --:        " << value-- << '\n';
     std::cout << "  После постфиксного --: " << value << '\n';
 
     printHeader("СОСТАВНЫЕ ОПЕРАТОРЫ");
 
     value = first;
     value += second;
-    std::cout << "  После +=:           " << value << '\n';
+    std::cout << "  После +=: " << value << '\n';
 
     value = first;
     value -= second;
-    std::cout << "  После -=:           " << value << '\n';
+    std::cout << "  После -=: " << value << '\n';
 
     value = first;
     value *= second;
-    std::cout << "  После *=:           " << value << '\n';
+    std::cout << "  После *=: " << value << '\n';
 
     if (second.getTotalSeconds() != 0) {
         value = first;
         value /= second;
-        std::cout << "  После /=:           " << value << '\n';
+        std::cout << "  После /=: " << value << '\n';
     } else {
-        std::cout << "  После /=:           операция пропущена из-за деления на ноль\n";
+        std::cout << "  После /=: деление на ноль невозможно\n";
     }
 
     printHeader("CONST, MUTABLE И EXPLICIT");
 
     const Time constantTime(12, 30, 0);
 
-    std::cout << "  Константный объект:  " << constantTime << '\n'
-              << "  Счётчик обращений до вызовов: "
+    std::cout << "  Константный объект: " << constantTime << '\n'
+              << "  Счётчик до вызовов: "
               << constantTime.getAccessCount() << '\n';
 
     constantTime.getHours();
@@ -262,7 +278,7 @@ void demonstrateOperators() {
     std::cout << "  Счётчик после вызовов: "
               << constantTime.getAccessCount() << '\n';
 
-    std::cout << "\n  Конструктор Time(int) объявлен explicit.\n"
+    std::cout << "  Конструктор Time(int) объявлен explicit.\n"
               << "  Неявное преобразование int в Time запрещено.\n"
               << "  Явное создание Time(3600): " << Time(3600) << '\n';
 }
@@ -276,9 +292,6 @@ void showStatistics() {
 
 int main() {
     std::vector<Event> events;
-
-    printHeader("СИСТЕМА УПРАВЛЕНИЯ РАСПИСАНИЕМ");
-    std::cout << "  Добро пожаловать!\n";
 
     while (true) {
         showMenu();
@@ -311,12 +324,7 @@ int main() {
                 break;
 
             case 0:
-                printHeader("ЗАВЕРШЕНИЕ РАБОТЫ");
-                std::cout << "  Спасибо за использование программы!\n";
                 return 0;
         }
-
-        std::cout << "\n  Нажмите Enter, чтобы вернуться в меню...";
-        std::cin.get();
     }
 }
