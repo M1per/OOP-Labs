@@ -7,9 +7,9 @@
 /**
  * @brief Статус авиарейса.
  */
-enum class FlightStatus
+enum class FlightStatus ///< enum — это перечисление, это не класс. Оно позволяет создать свой тип данных, который может принимать только одно из заранее заданных значений.
 {
-    Scheduled,    ///< Рейс запланирован
+    Scheduled,    ///< Рейс запланирован (пользовательские перечисляемые типы)
     Registration, ///< Идёт регистрация пассажиров
     Departed,     ///< Рейс вылетел
     Completed,    ///< Рейс завершён
@@ -26,7 +26,7 @@ enum class FlightStatus
 class Flight
 {
 private:
-    int flightNumber;              ///< Номер рейса
+    int flightNumber;              ///< Номер рейса (поле)
     std::string destination;       ///< Пункт назначения
     Aircraft aircraft;             ///< Самолёт рейса
     int passengerCount;            ///< Количество пассажиров
