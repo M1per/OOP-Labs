@@ -1,0 +1,91 @@
+@startuml
+title Лабораторная работа № 3 — Расписание на день
+
+top to bottom direction
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+
+class Time {
+    - totalSeconds : int
+    - accessCount : unsigned int {mutable}
+    {static} - objectCount : int
+    --
+    - normalize(seconds : int) : int
+    --
+    + Time()
+    + Time(seconds : int) <<explicit>>
+    + Time(hours : int, minutes : int, seconds : int)
+    + Time(other : const Time&)
+    + operator=(other : const Time&) : Time&
+    + ~Time()
+    --
+    + getHours() : int
+    + getMinutes() : int
+    + getSeconds() : int
+    + getTotalSeconds() : int
+    + getAccessCount() : unsigned int
+    + toString() : string
+    --
+    + operator++() : Time&
+    + operator++(int) : Time
+    + operator--() : Time&
+    + operator--(int) : Time
+    --
+    + operator+=(other : const Time&) : Time&
+    + operator-=(other : const Time&) : Time&
+    + operator*=(other : const Time&) : Time&
+    + operator/=(other : const Time&) : Time&
+    --
+    + operator<(other : const Time&) const : bool
+    + operator>(other : const Time&) const : bool
+    + operator<=(other : const Time&) const : bool
+    + operator>=(other : const Time&) const : bool
+    + operator==(other : const Time&) const : bool
+    + operator!=(other : const Time&) const : bool
+    --
+    + {static} getObjectCount() : int
+}
+
+class Event <<struct>> {
+    + name : string
+    + start : Time
+    + end : Time
+}
+
+class "Свободные операторы" as FreeOperators {
+    + operator+(Time, Time) : Time
+    + operator-(Time, Time) : Time
+    + operator*(Time, Time) : Time
+    + operator/(Time, Time) : Time
+    + operator<<(ostream, Time) : ostream
+}
+
+class "Функции main.cpp" as MainFunctions <<module>> {
+    showSchedule()
+    addEvent()
+    changeEvent()
+    compareTimes()
+    demonstrateOperators()
+    showStatistics()
+}
+
+Event *-- Time : начало и окончание
+FreeOperators ..> Time : работают с Time
+MainFunctions ..> Event : управляют событиями
+MainFunctions ..> Time : используют время
+
+note right of Time
+  Время хранится в секундах.
+  Формат вывода: HH:MM:SS.
+
+  explicit запрещает неявное
+  преобразование int в Time.
+
+  accessCount объявлен mutable
+  и меняется в const-методах.
+
+  Арифметические операторы
+  используют составные операторы.
+end note
+
+@enduml

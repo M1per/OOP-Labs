@@ -1,0 +1,30 @@
+PROJECT_NAME           = "Лабораторная работа № 3 — Расписание на день"
+PROJECT_NUMBER         = 1.0
+PROJECT_BRIEF          = "Класс Time и управление расписанием"
+OUTPUT_DIRECTORY       = docs/doxygen
+
+INPUT                  = include src
+FILE_PATTERNS          = *.h *.cpp
+RECURSIVE              = YES
+
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+EXTRACT_LOCAL_CLASSES  = YES
+
+OPTIMIZE_OUTPUT_FOR_C  = NO
+MARKDOWN_SUPPORT       = YES
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = NO
+WARN_IF_DOC_ERROR      = YES
+
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+GENERATE_LATEX         = NO
+GENERATE_XML           = NO
+GENERATE_MAN            = NO
+GENERATE_RTF            = NO
+
+QUIET                  = NO
+FULL_PATH_NAMES        = NO
+JAVADOC_AUTOBRIEF      = YES
