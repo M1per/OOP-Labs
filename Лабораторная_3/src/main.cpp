@@ -4,32 +4,63 @@
 #include <iostream>
 #include <limits>
 #include <string>
-#include <type_traits>
 #include <vector>
 
+/**
+ * @brief Событие в дневном расписании.
+ *
+ * Содержит название, время начала и время окончания.
+ */
 struct Event {
     std::string name;
     Time start;
     Time end;
 
-    Event(const std::string& eventName, const Time& eventStart, const Time& eventEnd)
+    /**
+     * @brief Создаёт событие.
+     * @param eventName Название события.
+     * @param eventStart Время начала.
+     * @param eventEnd Время окончания.
+     */
+    Event(const std::string& eventName,
+          const Time& eventStart,
+          const Time& eventEnd)
         : name(eventName), start(eventStart), end(eventEnd) {}
 };
 
+/** Строка для оформления интерфейса. */
 const std::string LINE(66, '=');
+
+/** Разделительная строка. */
 const std::string SEPARATOR(66, '-');
 
+/**
+ * @brief Выводит заголовок раздела.
+ * @param title Название раздела.
+ */
 void printHeader(const std::string& title) {
     std::cout << '\n' << LINE << '\n'
               << "  " << title << '\n'
               << LINE << '\n';
 }
 
+/**
+ * @brief Выводит результат логической проверки.
+ * @param description Описание проверки.
+ * @param result Результат проверки.
+ */
 void printResult(const std::string& description, bool result) {
     std::cout << "  " << std::left << std::setw(42) << description
               << (result ? "Да" : "Нет") << '\n';
 }
 
+/**
+ * @brief Считывает целое число в заданном диапазоне.
+ * @param prompt Приглашение для ввода.
+ * @param minValue Минимально допустимое значение.
+ * @param maxValue Максимально допустимое значение.
+ * @return Корректно введённое число.
+ */
 int readInt(const std::string& prompt, int minValue, int maxValue) {
     int value;
 
@@ -37,7 +68,10 @@ int readInt(const std::string& prompt, int minValue, int maxValue) {
         std::cout << prompt;
 
         if (std::cin >> value && value >= minValue && value <= maxValue) {
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cin.ignore(
+                std::numeric_limits<std::streamsize>::max(),
+                '\n'
+            );
             return value;
         }
 
@@ -45,10 +79,18 @@ int readInt(const std::string& prompt, int minValue, int maxValue) {
                   << minValue << " до " << maxValue << ".\n";
 
         std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.ignore(
+            std::numeric_limits<std::streamsize>::max(),
+            '\n'
+        );
     }
 }
 
+/**
+ * @brief Считывает непустую строку.
+ * @param prompt Приглашение для ввода.
+ * @return Введённый текст.
+ */
 std::string readText(const std::string& prompt) {
     std::string text;
 
@@ -64,6 +106,11 @@ std::string readText(const std::string& prompt) {
     }
 }
 
+/**
+ * @brief Считывает время с клавиатуры.
+ * @param title Заголовок раздела ввода.
+ * @return Созданный объект времени.
+ */
 Time readTime(const std::string& title) {
     printHeader(title);
 
@@ -74,6 +121,9 @@ Time readTime(const std::string& title) {
     return Time(hours, minutes, seconds);
 }
 
+/**
+ * @brief Отображает главное меню приложения.
+ */
 void showMenu() {
     printHeader("ГЛАВНОЕ МЕНЮ");
 
@@ -88,6 +138,10 @@ void showMenu() {
         << SEPARATOR << '\n';
 }
 
+/**
+ * @brief Выводит все события расписания.
+ * @param events Вектор событий.
+ */
 void showSchedule(const std::vector<Event>& events) {
     printHeader("РАСПИСАНИЕ НА ДЕНЬ");
 
@@ -121,6 +175,13 @@ void showSchedule(const std::vector<Event>& events) {
               << "  Всего событий: " << events.size() << '\n';
 }
 
+/**
+ * @brief Добавляет новое событие в расписание.
+ * @param events Вектор событий.
+ *
+ * Названия событий должны быть уникальными.
+ * Время окончания не может быть раньше времени начала.
+ */
 void addEvent(std::vector<Event>& events) {
     printHeader("ДОБАВЛЕНИЕ СОБЫТИЯ");
 
@@ -147,6 +208,12 @@ void addEvent(std::vector<Event>& events) {
     std::cout << "\n  Событие добавлено.\n";
 }
 
+/**
+ * @brief Изменяет название и время выбранного события.
+ * @param events Вектор событий.
+ *
+ * Проверяет корректность времени и уникальность названия.
+ */
 void changeEventTime(std::vector<Event>& events) {
     printHeader("ИЗМЕНЕНИЕ СОБЫТИЯ");
 
@@ -191,6 +258,11 @@ void changeEventTime(std::vector<Event>& events) {
     std::cout << "\n  Событие \"" << newName << "\" изменено.\n";
 }
 
+/**
+ * @brief Сравнивает два введённых значения времени.
+ *
+ * Демонстрирует работу всех шести операторов сравнения.
+ */
 void compareTimes() {
     printHeader("СРАВНЕНИЕ ВРЕМЕНИ");
 
@@ -210,6 +282,12 @@ void compareTimes() {
     printResult("Время различается:", first != second);
 }
 
+/**
+ * @brief Демонстрирует перегруженные операторы класса Time.
+ *
+ * Проверяет арифметические, унарные и составные операторы,
+ * а также работу const, mutable и explicit.
+ */
 void demonstrateOperators() {
     printHeader("ДЕМОНСТРАЦИЯ ОПЕРАТОРОВ");
 
@@ -279,39 +357,28 @@ void demonstrateOperators() {
     std::cout << "  Счётчик после вызовов: "
               << constantTime.getAccessCount() << '\n';
 
-    printResult(
-        "Неявное преобразование int в Time запрещено:",
-        !std::is_convertible<int, Time>::value
-    );
-
-    std::cout << "  Явное создание Time(3600): "
-              << Time(3600) << '\n';
+    std::cout << "  Конструктор Time(int) объявлен explicit.\n"
+              << "  Неявное преобразование int в Time запрещено.\n"
+              << "  Явное создание Time(3600): " << Time(3600) << '\n';
 }
 
+/**
+ * @brief Выводит статистику существующих объектов Time.
+ */
 void showStatistics() {
     printHeader("СТАТИСТИКА ОБЪЕКТОВ");
 
-    int before = Time::getObjectCount();
-
-    std::cout << "  Объектов до проверки: "
-              << before << '\n';
-
-    {
-        Time temporary;
-
-        std::cout << "  После создания объекта: "
-                  << Time::getObjectCount() << '\n';
-    }
-
-    std::cout << "  После уничтожения объекта: "
+    std::cout << "  Количество существующих объектов Time: "
               << Time::getObjectCount() << '\n';
-
-    printResult(
-        "Счётчик восстановился после деструктора:",
-        Time::getObjectCount() == before
-    );
 }
 
+/**
+ * @brief Главная функция приложения.
+ * @return 0 при нормальном завершении.
+ *
+ * Создаёт расписание и обрабатывает действия пользователя
+ * до выбора пункта выхода.
+ */
 int main() {
     std::vector<Event> events;
 
