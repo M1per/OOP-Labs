@@ -1,0 +1,12 @@
+Guitar;6;10.0
+Guitar;6;9.5
+Guitar;12;8.0
+Violin;4;8.0
+Violin;4;7.5
+Violin;4;8.5
+Flute;2.5;Серебро
+Flute;2.0;Дерево
+Flute;3.0;Золото
+SynthGuitar;6;10.0
+SynthGuitar;6;9.0
+SynthGuitar;7;8.5
