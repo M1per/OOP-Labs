@@ -3,29 +3,56 @@
 #define FLUTE_H
 
 #include "WindInstrument.h"
-
 #include <string>
 
+/**
+ * @brief Класс флейты.
+ *
+ * Наследуется от WindInstrument.
+ * Представляет духовой музыкальный инструмент.
+ */
 class Flute : public WindInstrument {
 public:
-    // Конструктор.
-    Flute(double diaphragmSize = 2.5,
-          const std::string& instrumentMaterial = "Серебро");
+    /**
+     * @brief Создаёт флейту.
+     * @param diaphragmSize Размер диафрагмы.
+     * @param instrumentMaterial Материал изготовления.
+     */
+    Flute(
+        double diaphragmSize = 2.5,
+        const std::string& instrumentMaterial = "Серебро"
+    );
 
-    // Конструктор копирования.
+    /**
+     * @brief Конструктор копирования.
+     * @param other Копируемая флейта.
+     */
     Flute(const Flute& other);
 
-    // Оператор присваивания.
+    /**
+     * @brief Оператор присваивания.
+     * @param other Флейта, данные которой копируются.
+     * @return Ссылка на текущий объект.
+     */
     Flute& operator=(const Flute& other);
 
-    // Деструктор.
+    /** @brief Деструктор флейты. */
     ~Flute() override;
 
-    // Реализация виртуальных функций.
+    /**
+     * @brief Воспроизводит звук флейты.
+     *
+     * Регистрирует воспроизведение в общей статистике.
+     */
     void play() override;
+
+    /**
+     * @brief Возвращает название инструмента.
+     * @return Строка «Флейта».
+     */
     std::string getType() const override;
 
-    // Переопределение настройки.
+    /** @brief Выполняет настройку флейты. */
     void tune() const override;
 };
 

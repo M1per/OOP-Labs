@@ -1,0 +1,115 @@
+
+# ============================================================
+# Doxyfile — документация проекта "Музыкальные инструменты"
+# ============================================================
+
+# Основная информация о проекте
+PROJECT_NAME           = "Музыкальные инструменты"
+PROJECT_NUMBER         = "1.0"
+PROJECT_BRIEF          = "Лабораторная работа №4. Вариант 9"
+PROJECT_LOGO           =
+
+# Каталоги проекта
+OUTPUT_DIRECTORY       = docs
+CREATE_SUBDIRS         = NO
+
+# Исходные файлы
+INPUT                  = include src tests
+INPUT_ENCODING         = UTF-8
+FILE_PATTERNS          = *.h *.cpp
+RECURSIVE              = YES
+
+# Обработка исходного кода
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_PROTECTED      = YES
+EXTRACT_STATIC         = YES
+EXTRACT_LOCAL_CLASSES  = YES
+EXTRACT_LOCAL_METHODS  = YES
+EXTRACT_ANON_NSPACES   = YES
+
+# Документирование
+OPTIMIZE_OUTPUT_FOR_C  = NO
+OPTIMIZE_OUTPUT_JAVA   = NO
+MARKDOWN_SUPPORT       = YES
+AUTOLINK_SUPPORT       = YES
+BUILTIN_STL_SUPPORT    = YES
+HIDE_UNDOC_MEMBERS     = NO
+HIDE_UNDOC_CLASSES     = NO
+WARN_IF_UNDOCUMENTED   = NO
+WARN_IF_DOC_ERROR      = YES
+
+# Формирование документации
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+HTML_FILE_EXTENSION    = .html
+HTML_COLORSTYLE_HUE    = 220
+HTML_COLORSTYLE_SAT    = 100
+HTML_COLORSTYLE_GAMMA  = 80
+HTML_DYNAMIC_MENUS     = YES
+HTML_DYNAMIC_SECTIONS  = YES
+
+GENERATE_LATEX         = NO
+GENERATE_XML           = NO
+GENERATE_MAN           = NO
+GENERATE_RTF           = NO
+GENERATE_DOCBOOK       = NO
+
+# Графы и диаграммы
+HAVE_DOT               = YES
+DOT_NUM_THREADS        = 4
+UML_LOOK               = YES
+CLASS_DIAGRAMS         = YES
+COLLABORATION_GRAPH    = YES
+GROUP_GRAPHS           = YES
+INCLUDE_GRAPH          = YES
+INCLUDED_BY_GRAPH      = YES
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+GRAPHICAL_HIERARCHY    = YES
+DIRECTORY_GRAPH        = YES
+DOT_IMAGE_FORMAT       = svg
+INTERACTIVE_SVG        = YES
+
+# Настройки графов
+DOT_GRAPH_MAX_NODES    = 100
+MAX_DOT_GRAPH_DEPTH    = 4
+DOT_TRANSPARENT        = YES
+
+# Поиск
+SEARCHENGINE           = YES
+SERVER_BASED_SEARCH    = NO
+
+# Сортировка
+SORT_BRIEF_DOCS        = YES
+SORT_MEMBERS_CTORS_1ST = YES
+SORT_GROUP_NAMES       = YES
+SORT_BY_SCOPE_NAME     = YES
+
+# Вывод
+QUIET                  = NO
+WARNINGS               = YES
+WARN_IF_DOC_ERROR      = YES
+WARN_NO_PARAMDOC       = NO
+
+# Кодировка
+OUTPUT_LANGUAGE        = Russian
+ALLOW_UNICODE_NAMES    = YES
+
+# Дополнительные настройки
+TAB_SIZE               = 4
+EXTENSION_MAPPING      =
+INLINE_INHERITED_MEMB  = NO
+SEPARATE_MEMBER_PAGES  = NO
+SHOW_FILES             = YES
+SHOW_NAMESPACES        = YES
+SHOW_INCLUDE_FILES     = YES
+SHOW_USED_FILES        = YES
+
+# Включение исходного кода в документацию
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = NO
+STRIP_CODE_COMMENTS    = NO
+
+# Версия Doxygen
+DOXYFILE_ENCODING      = UTF-8

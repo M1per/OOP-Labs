@@ -4,27 +4,51 @@
 
 #include "StringInstrument.h"
 
-#include <string>
-
+/**
+ * @brief Класс скрипки.
+ *
+ * Наследуется от StringInstrument.
+ * Представляет струнный смычковый музыкальный инструмент.
+ */
 class Violin : public StringInstrument {
 public:
-    // Конструктор.
+    /**
+     * @brief Создаёт скрипку.
+     * @param strings Количество струн.
+     * @param tension Натяжение струн.
+     */
     Violin(int strings = 4, double tension = 8.0);
 
-    // Конструктор копирования.
+    /**
+     * @brief Конструктор копирования.
+     * @param other Копируемая скрипка.
+     */
     Violin(const Violin& other);
 
-    // Оператор присваивания.
+    /**
+     * @brief Оператор присваивания.
+     * @param other Скрипка, данные которой копируются.
+     * @return Ссылка на текущий объект.
+     */
     Violin& operator=(const Violin& other);
 
-    // Деструктор.
+    /** @brief Деструктор скрипки. */
     ~Violin() override;
 
-    // Реализация виртуальных функций.
+    /**
+     * @brief Воспроизводит звук скрипки.
+     *
+     * Регистрирует воспроизведение в общей статистике.
+     */
     void play() override;
+
+    /**
+     * @brief Возвращает название инструмента.
+     * @return Строка «Скрипка».
+     */
     std::string getType() const override;
 
-    // Переопределение настройки.
+    /** @brief Выполняет настройку скрипки. */
     void tune() const override;
 };
 
